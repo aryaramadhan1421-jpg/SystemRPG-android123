@@ -1,0 +1,2382 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#07090e">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SYSTEM RPG">
+    <title>SYSTEM // Awakening Productivity RPG (Offline)</title>
+
+    <style>
+        /* ==========================================
+           100% OFFLINE EMBEDDED CSS (NO CDN REQUIRED)
+           ========================================== */
+        :root {
+            --bg-main: #07090e;
+            --bg-card: rgba(15, 19, 31, 0.92);
+            --bg-dark: #0a0e17;
+            --bg-slate-800: #1e293b;
+            --bg-slate-900: #0f172a;
+            --bg-slate-950: #020617;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            --cyan: #00f0ff;
+            --cyan-400: #22d3ee;
+            --cyan-500: #06b6d4;
+            --purple: #9d4edd;
+            --purple-400: #c084fc;
+            --amber: #fbbf24;
+            --amber-400: #fbbf24;
+            --amber-500: #f59e0b;
+            --rose: #ef4444;
+            --rose-400: #fb7185;
+            --rose-500: #f43f5e;
+            --emerald: #10b981;
+            --emerald-400: #34d399;
+            --orange-400: #fb923c;
+            --orange-500: #f97316;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --font-display: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.09) 0%, transparent 60%),
+                linear-gradient(to right, rgba(30, 41, 59, 0.25) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.25) 1px, transparent 1px);
+            background-size: 100% 100%, 24px 24px, 24px 24px;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #07090e; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+
+        /* Typography & Utilities */
+        .font-display {
+            font-family: var(--font-display);
+            letter-spacing: 0.03em;
+        }
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .flex-1 { flex: 1 1 0%; }
+        .flex-wrap { flex-wrap: wrap; }
+        .items-center { align-items: center; }
+        .items-start { align-items: flex-start; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .justify-around { justify-content: space-around; }
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .grid-cols-7 { grid-template-columns: repeat(7, minmax(0, 1fr)); }
+        .gap-1 { gap: 0.25rem; }
+        .gap-1-5 { gap: 0.375rem; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-2-5 { gap: 0.625rem; }
+        .gap-3 { gap: 0.75rem; }
+        .space-y-1 > * + * { margin-top: 0.25rem; }
+        .space-y-1-5 > * + * { margin-top: 0.375rem; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .space-y-2-5 > * + * { margin-top: 0.625rem; }
+        .space-y-3 > * + * { margin-top: 0.75rem; }
+        .space-y-4 > * + * { margin-top: 1rem; }
+
+        .w-full { width: 100%; }
+        .min-w-0 { min-width: 0; }
+        .shrink-0 { flex-shrink: 0; }
+        .max-w-md { max-width: 28rem; }
+        .max-w-sm { max-width: 24rem; }
+        .max-w-xs { max-width: 20rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .text-left { text-align: left; }
+        .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .line-through { text-decoration: line-through; }
+
+        /* Card & Glow */
+        .system-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 240, 255, 0.22);
+            box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.04);
+            border-radius: 1rem;
+            padding: 1rem;
+            position: relative;
+        }
+        .shadow-neon-blue { box-shadow: 0 0 15px rgba(0, 240, 255, 0.28); }
+        .shadow-neon-purple { box-shadow: 0 0 15px rgba(157, 78, 221, 0.28); }
+        .shadow-neon-gold { box-shadow: 0 0 15px rgba(251, 191, 36, 0.28); }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: rgba(7, 9, 14, 0.94);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.22);
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 28rem;
+            margin: 0 auto;
+        }
+
+        main {
+            flex: 1;
+            width: 100%;
+            max-width: 28rem;
+            margin: 0 auto;
+            padding: 1rem 1rem 6rem 1rem;
+        }
+
+        /* Buttons & Inputs */
+        button, input, select {
+            font-family: inherit;
+        }
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: inherit;
+            transition: transform 0.12s ease, opacity 0.15s ease, background-color 0.15s ease;
+        }
+        button:active:not(:disabled) {
+            transform: scale(0.96);
+        }
+        button:disabled {
+            cursor: not-allowed;
+        }
+
+        .input-cyber {
+            width: 100%;
+            background-color: var(--bg-slate-950);
+            border: 1px solid #334155;
+            border-radius: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            color: #ffffff;
+            outline: none;
+        }
+        .input-cyber:focus {
+            border-color: var(--cyan-400);
+        }
+
+        /* Progress Bars */
+        .progress-track {
+            width: 100%;
+            height: 0.625rem;
+            background-color: var(--bg-slate-900);
+            border-radius: 9999px;
+            overflow: hidden;
+            border: 1px solid var(--bg-slate-800);
+            padding: 2px;
+        }
+        .progress-track-sm {
+            width: 100%;
+            height: 0.375rem;
+            background-color: var(--bg-slate-950);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            transition: width 0.45s ease;
+        }
+
+        /* Bottom Nav */
+        nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 30;
+            background: rgba(7, 9, 14, 0.96);
+            border-top: 1px solid rgba(6, 182, 212, 0.22);
+        }
+        .nav-inner {
+            max-width: 28rem;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            height: 4rem;
+        }
+        .nav-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+            color: #64748b;
+            position: relative;
+        }
+        .nav-btn.active {
+            color: var(--cyan-400);
+        }
+
+        /* Animations */
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(15px) scale(0.92); }
+            20% { opacity: 1; transform: translateY(0) scale(1.04); }
+            80% { opacity: 1; transform: translateY(-20px) scale(1); }
+            100% { opacity: 0; transform: translateY(-35px) scale(0.95); }
+        }
+        .animate-float-reward {
+            animation: floatUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes firePulse {
+            0%, 100% { filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.6)); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.95)); transform: scale(1.08); }
+        }
+        .animate-fire {
+            animation: firePulse 2s infinite ease-in-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-enter {
+            animation: modalFadeIn 0.22s ease-out forwards;
+        }
+
+        /* Modal Backdrop */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.82);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        /* Pill & Badge Helpers */
+        .pill-gold {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            padding: 0.25rem 0.55rem;
+            border-radius: 9999px;
+        }
+        .pill-streak {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(249, 115, 22, 0.35);
+            padding: 0.25rem 0.55rem;
+            border-radius: 9999px;
+        }
+        .stat-box {
+            background: rgba(15, 23, 42, 0.65);
+            padding: 0.75rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(30, 41, 59, 0.85);
+        }
+        .stat-badge {
+            width: 1.75rem;
+            height: 1.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        /* Scroll areas */
+        .scroll-box {
+            max-height: 11.5rem;
+            overflow-y: auto;
+            padding-right: 0.25rem;
+        }
+
+        /* SVG Icon defaults */
+        svg.icon {
+            display: inline-block;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Notifications Container -->
+    <div id="floating-container" style="position: fixed; top: 4.2rem; left: 50%; transform: translateX(-50%); z-index: 60; pointer-events: none; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; width: 100%; max-width: 21rem;"></div>
+
+    <!-- Top Header -->
+    <header>
+        <div class="flex items-center gap-2">
+            <div style="width: 0.5rem; height: 1.5rem; background: var(--cyan-400); border-radius: 3px;" class="shadow-neon-blue"></div>
+            <div>
+                <h1 class="font-display" style="font-weight: 800; font-size: 1.125rem; letter-spacing: 0.08em; color: var(--cyan-400); line-height: 1;">SYSTEM</h1>
+                <p style="font-size: 9px; color: var(--text-muted); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 2px;">Offline RPG OS</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-1-5">
+            <!-- Offline Ready Badge -->
+            <span style="font-size: 10px; font-weight: 700; color: #34d399; background: rgba(16, 185, 129, 0.12); border: 1px solid rgba(16, 185, 129, 0.35); padding: 0.2rem 0.5rem; border-radius: 9999px;" title="Berjalan 100% Tanpa Internet">
+                OFFLINE
+            </span>
+
+            <!-- Gold Pill -->
+            <div class="pill-gold">
+                <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>
+                <span id="header-gold" class="font-display" style="font-weight: 700; font-size: 0.75rem; color: #fcd34d;">0</span>
+            </div>
+
+            <!-- Streak Pill -->
+            <div class="pill-streak">
+                <svg class="icon animate-fire" width="14" height="14" viewBox="0 0 24 24" fill="#f97316" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                <span id="header-streak" class="font-display" style="font-weight: 700; font-size: 0.75rem; color: #fb923c;">0</span>
+            </div>
+
+            <!-- Audio Toggle Button -->
+            <button id="btn-audio-toggle" onclick="toggleAudio()" style="padding: 0.4rem; border-radius: 0.5rem; background: var(--bg-slate-900); border: 1px solid #334155; color: var(--cyan-400);" title="Toggle Suara HUD">
+                <span id="icon-audio-wrap"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="space-y-4">
+
+        <!-- ==================== TAB 1: STATUS ==================== -->
+        <section id="tab-status" class="tab-content space-y-4">
+            <!-- Player Identity Card -->
+            <div class="system-card">
+                <div class="flex items-start justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div style="width: 3.5rem; height: 3.5rem; border-radius: 0.75rem; background: linear-gradient(135deg, rgba(6,182,212,0.2), rgba(147,51,234,0.2)); border: 1px solid rgba(34,211,238,0.5); display: flex; align-items: center; justify-content: center;" class="shadow-neon-blue shrink-0">
+                            <svg class="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-1-5">
+                                <span id="player-rank-badge" class="font-display" style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px;">
+                                    NOVICE
+                                </span>
+                                <span id="xp-multiplier-badge" class="hidden font-display" style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 6px; border-radius: 4px; background: rgba(249,115,22,0.2); color: #fdba74; border: 1px solid rgba(249,115,22,0.4);">
+                                    1.0x XP
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2" style="margin-top: 4px;">
+                                <h2 id="player-name-display" class="font-display" style="font-weight: 700; font-size: 1.25rem; color: #fff;">Sung Jin-Woo</h2>
+                                <button onclick="openEditNameModal()" style="color: var(--text-muted); padding: 4px;" title="Edit Nama">
+                                    <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                                </button>
+                            </div>
+                            <p style="font-size: 0.75rem; color: var(--text-muted);">Job: <span style="color: #67e8f9; font-weight: 600;">Shadow Monarch Candidate</span></p>
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <span style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; display: block;">Level</span>
+                        <span id="player-level" class="font-display" style="font-weight: 800; font-size: 1.875rem; color: var(--cyan-400); text-shadow: 0 0 10px rgba(0,240,255,0.5);">1</span>
+                    </div>
+                </div>
+
+                <!-- Active Title Selector -->
+                <div style="margin-top: 0.75rem; padding-top: 0.625rem; border-top: 1px solid rgba(30,41,59,0.85);" class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-1-5" style="font-size: 0.75rem;">
+                        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                        <span style="color: var(--text-muted);">Title:</span>
+                        <span id="active-title-name" class="font-display" style="font-weight: 700; color: #fcd34d;">Shadow Candidate</span>
+                    </div>
+                    <button onclick="openTitlesModal()" class="font-display" style="font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 4px 8px; border-radius: 0.5rem; background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid rgba(245,158,11,0.4);">
+                        Ganti Title (<span id="unlocked-titles-count">1</span>/4)
+                    </button>
+                </div>
+
+                <!-- HP & XP Bars -->
+                <div style="margin-top: 1rem;" class="space-y-3">
+                    <div>
+                        <div class="flex justify-between" style="font-size: 0.75rem; margin-bottom: 4px;">
+                            <span class="font-display flex items-center gap-1" style="font-weight: 600; color: var(--rose-400);">
+                                <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="#f43f5e" stroke="#f43f5e" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                                HP (Vitality)
+                            </span>
+                            <span id="hp-text" class="font-display" style="font-weight: 700; color: #cbd5e1;">100 / 100</span>
+                        </div>
+                        <div class="progress-track">
+                            <div id="hp-bar" class="progress-fill" style="width: 100%; background: linear-gradient(to right, #e11d48, #fb7185);"></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="flex justify-between" style="font-size: 0.75rem; margin-bottom: 4px;">
+                            <span class="font-display flex items-center gap-1" style="font-weight: 600; color: var(--cyan-400);">
+                                <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                EXP Progress
+                            </span>
+                            <span id="xp-text" class="font-display" style="font-weight: 700; color: #cbd5e1;">0 / 100 XP</span>
+                        </div>
+                        <div class="progress-track">
+                            <div id="xp-bar" class="progress-fill" style="width: 0%; background: linear-gradient(to right, #06b6d4, #a855f7);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 Core RPG Stats -->
+            <div class="system-card space-y-3">
+                <div class="flex items-center justify-between" style="border-bottom: 1px solid var(--bg-slate-800); padding-bottom: 0.5rem;">
+                    <h3 class="font-display flex items-center gap-1-5" style="font-weight: 700; font-size: 0.875rem; text-transform: uppercase; color: var(--cyan-400);">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        Status Atribut
+                    </h3>
+                    <span style="font-size: 11px; color: var(--text-muted);">Auto-upgrade via Quests</span>
+                </div>
+
+                <!-- Radar Chart SVG -->
+                <div class="flex justify-center items-center" style="padding: 0.5rem; background: rgba(2,6,23,0.65); border-radius: 0.75rem; border: 1px solid rgba(30,41,59,0.85);">
+                    <svg id="stats-radar-svg" viewBox="0 0 220 180" style="width: 100%; max-width: 230px; height: auto; overflow: visible;">
+                        <polygon points="110,25 175,90 110,155 45,90" fill="none" stroke="#1e293b" stroke-width="1" />
+                        <polygon points="110,46 153,90 110,134 67,90" fill="none" stroke="#1e293b" stroke-width="1" stroke-dasharray="2,2" />
+                        <polygon points="110,68 132,90 110,112 88,90" fill="none" stroke="#1e293b" stroke-width="1" />
+                        <line x1="110" y1="25" x2="110" y2="155" stroke="#1e293b" stroke-width="1" />
+                        <line x1="45" y1="90" x2="175" y2="90" stroke="#1e293b" stroke-width="1" />
+                        <polygon id="radar-data-poly" points="110,60 140,90 110,120 80,90" fill="rgba(0, 240, 255, 0.22)" stroke="#00f0ff" stroke-width="2" />
+                        <circle id="node-STR" cx="110" cy="60" r="3" fill="#fb7185" />
+                        <circle id="node-INT" cx="140" cy="90" r="3" fill="#22d3ee" />
+                        <circle id="node-WIS" cx="110" cy="120" r="3" fill="#c084fc" />
+                        <circle id="node-CHR" cx="80" cy="90" r="3" fill="#fbbf24" />
+                        <text x="110" y="15" text-anchor="middle" fill="#fb7185" font-weight="700" font-size="11">STR</text>
+                        <text x="184" y="94" text-anchor="start" fill="#22d3ee" font-weight="700" font-size="11">INT</text>
+                        <text x="110" y="172" text-anchor="middle" fill="#c084fc" font-weight="700" font-size="11">WIS</text>
+                        <text x="36" y="94" text-anchor="end" fill="#fbbf24" font-weight="700" font-size="11">CHR</text>
+                    </svg>
+                </div>
+
+                <div class="grid grid-cols-1 gap-3" style="padding-top: 4px;">
+                    <!-- STR -->
+                    <div class="stat-box">
+                        <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                            <div class="flex items-center gap-2">
+                                <span class="stat-badge" style="background: rgba(244,63,94,0.15); border: 1px solid rgba(244,63,94,0.35); color: var(--rose-400);">STR</span>
+                                <div>
+                                    <p style="font-size: 0.75rem; font-weight: 600; color: #e2e8f0;">Strength</p>
+                                    <p style="font-size: 10px; color: var(--text-muted);">Fisik, Olahraga & Kesehatan</p>
+                                </div>
+                            </div>
+                            <span id="stat-STR-val" class="font-display" style="font-weight: 700; font-size: 1.125rem; color: var(--rose-400);">10</span>
+                        </div>
+                        <div class="progress-track-sm">
+                            <div id="stat-STR-bar" class="progress-fill" style="width: 20%; background: var(--rose-500);"></div>
+                        </div>
+                    </div>
+
+                    <!-- INT -->
+                    <div class="stat-box">
+                        <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                            <div class="flex items-center gap-2">
+                                <span class="stat-badge" style="background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.35); color: var(--cyan-400);">INT</span>
+                                <div>
+                                    <p style="font-size: 0.75rem; font-weight: 600; color: #e2e8f0;">Intelligence</p>
+                                    <p style="font-size: 10px; color: var(--text-muted);">Belajar, Kerja & Fokus</p>
+                                </div>
+                            </div>
+                            <span id="stat-INT-val" class="font-display" style="font-weight: 700; font-size: 1.125rem; color: var(--cyan-400);">10</span>
+                        </div>
+                        <div class="progress-track-sm">
+                            <div id="stat-INT-bar" class="progress-fill" style="width: 20%; background: var(--cyan-400);"></div>
+                        </div>
+                    </div>
+
+                    <!-- WIS -->
+                    <div class="stat-box">
+                        <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                            <div class="flex items-center gap-2">
+                                <span class="stat-badge" style="background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.35); color: var(--purple-400);">WIS</span>
+                                <div>
+                                    <p style="font-size: 0.75rem; font-weight: 600; color: #e2e8f0;">Wisdom</p>
+                                    <p style="font-size: 10px; color: var(--text-muted);">Ibadah, Jurnal & Mindfulness</p>
+                                </div>
+                            </div>
+                            <span id="stat-WIS-val" class="font-display" style="font-weight: 700; font-size: 1.125rem; color: var(--purple-400);">10</span>
+                        </div>
+                        <div class="progress-track-sm">
+                            <div id="stat-WIS-bar" class="progress-fill" style="width: 20%; background: #a855f7;"></div>
+                        </div>
+                    </div>
+
+                    <!-- CHR -->
+                    <div class="stat-box">
+                        <div class="flex justify-between items-center" style="margin-bottom: 6px;">
+                            <div class="flex items-center gap-2">
+                                <span class="stat-badge" style="background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.35); color: var(--amber-400);">CHR</span>
+                                <div>
+                                    <p style="font-size: 0.75rem; font-weight: 600; color: #e2e8f0;">Charisma</p>
+                                    <p style="font-size: 10px; color: var(--text-muted);">Sosial, Relasi & Komunikasi</p>
+                                </div>
+                            </div>
+                            <span id="stat-CHR-val" class="font-display" style="font-weight: 700; font-size: 1.125rem; color: var(--amber-400);">10</span>
+                        </div>
+                        <div class="progress-track-sm">
+                            <div id="stat-CHR-bar" class="progress-fill" style="width: 20%; background: var(--amber-400);"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Habit Tracker & Riwayat Progres -->
+            <div class="system-card space-y-3">
+                <div class="flex items-center justify-between" style="border-bottom: 1px solid var(--bg-slate-800); padding-bottom: 0.5rem;">
+                    <h3 class="font-display flex items-center gap-1-5" style="font-weight: 700; font-size: 0.875rem; text-transform: uppercase; color: var(--cyan-400);">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/></svg>
+                        Habit Tracker & Riwayat
+                    </h3>
+                    <span id="total-completed-badge" class="font-display" style="font-size: 11px; font-weight: 700; color: var(--emerald-400); background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); padding: 2px 8px; border-radius: 9999px;">0 Selesai</span>
+                </div>
+
+                <!-- Date Picker & Active Date Banner -->
+                <div style="background: rgba(2,6,23,0.85); border: 1px solid var(--bg-slate-800); border-radius: 0.75rem; padding: 0.625rem;" class="flex items-center justify-between gap-2">
+                    <div class="flex items-center gap-2 min-w-0">
+                        <svg class="icon shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        <div class="min-w-0">
+                            <span style="font-size: 10px; color: var(--text-muted); display: block; text-transform: uppercase;">Tanggal Aktif Sistem</span>
+                            <span id="active-date-label" class="font-display truncate" style="font-size: 0.75rem; font-weight: 700; color: #fff; display: block;">-</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1-5 shrink-0">
+                        <input type="date" id="custom-date-picker" onchange="handleDateChange(this.value)" style="background: var(--bg-slate-900); border: 1px solid #334155; border-radius: 0.5rem; padding: 4px 6px; font-size: 0.75rem; color: #67e8f9; outline: none;">
+                        <button onclick="resetToTodayDate()" class="font-display" style="background: var(--bg-slate-800); font-size: 10px; font-weight: 700; color: #cbd5e1; padding: 6px 8px; border-radius: 0.5rem; border: 1px solid #334155;" title="Kembali ke Hari Ini">
+                            Hari Ini
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 14-Day Habit Heatmap Grid -->
+                <div>
+                    <div class="flex justify-between items-center" style="font-size: 11px; color: var(--text-muted); margin-bottom: 0.5rem;">
+                        <span>Klik kotak tanggal untuk cek riwayat</span>
+                        <span class="flex items-center gap-1" style="font-size: 10px;">
+                            0
+                            <span style="width: 10px; height: 10px; border-radius: 2px; background: var(--bg-slate-900); border: 1px solid var(--bg-slate-800); display: inline-block;"></span>
+                            <span style="width: 10px; height: 10px; border-radius: 2px; background: #164e63; border: 1px solid #0e7490; display: inline-block;"></span>
+                            <span style="width: 10px; height: 10px; border-radius: 2px; background: #06b6d4; display: inline-block;"></span>
+                            <span style="width: 10px; height: 10px; border-radius: 2px; background: #34d399; display: inline-block;"></span>
+                            4+
+                        </span>
+                    </div>
+                    <div id="habit-heatmap" class="grid grid-cols-7 gap-1-5"></div>
+                </div>
+
+                <!-- Per-Day Activity Log -->
+                <div style="padding-top: 0.5rem; border-top: 1px solid rgba(30,41,59,0.85);">
+                    <div class="flex items-center justify-between" style="margin-bottom: 0.5rem;">
+                        <p id="history-log-title" class="font-display" style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #67e8f9;">Log Aktivitas Tanggal Ini</p>
+                        <button id="btn-toggle-all-logs" onclick="toggleShowAllLogs()" style="font-size: 10px; color: var(--text-muted); text-decoration: underline;">
+                            Lihat Semua
+                        </button>
+                    </div>
+                    <div id="history-log-list" class="scroll-box space-y-1-5"></div>
+                </div>
+            </div>
+
+            <!-- System Simulation & Reset Controls -->
+            <div class="system-card space-y-3" style="border-color: rgba(245, 158, 11, 0.25);">
+                <div class="flex items-center justify-between">
+                    <h3 class="font-display flex items-center gap-1-5" style="font-weight: 700; font-size: 0.75rem; text-transform: uppercase; color: #cbd5e1;">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/></svg>
+                        Kontrol Sistem & Evaluasi Harian
+                    </h3>
+                </div>
+                <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
+                    Evaluasi misi pada tanggal terpilih lalu lanjut ke hari berikutnya. Jika ada <span style="color: #67e8f9;">Daily Quest</span> yang belum selesai, HP akan berkurang!
+                </p>
+                <div class="flex gap-2">
+                    <button onclick="simulateNextDay()" class="flex-1 font-display shadow-neon-blue flex items-center justify-center gap-1-5" style="background: linear-gradient(to right, #0891b2, #2563eb); color: #fff; font-weight: 700; font-size: 0.875rem; padding: 0.625rem 0.75rem; border-radius: 0.75rem;">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v8"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg>
+                        Evaluasi & Lanjut Hari
+                    </button>
+                    <button onclick="openResetModal()" style="background: var(--bg-slate-900); color: var(--text-muted); border: 1px solid #334155; padding: 0.625rem; border-radius: 0.75rem;" title="Reset Data Demo">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                    </button>
+                </div>
+
+                <!-- Backup & Restore JSON -->
+                <div style="padding-top: 0.5rem; border-top: 1px solid rgba(30,41,59,0.85);" class="flex gap-2">
+                    <button onclick="exportBackupData()" class="flex-1 font-display flex items-center justify-center gap-1-5" style="background: var(--bg-slate-900); color: #67e8f9; border: 1px solid #334155; font-weight: 700; font-size: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.75rem;">
+                        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Backup Data (JSON)
+                    </button>
+                    <label class="flex-1 font-display flex items-center justify-center gap-1-5" style="background: var(--bg-slate-900); color: #fcd34d; border: 1px solid #334155; font-weight: 700; font-size: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.75rem; cursor: pointer;">
+                        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        Restore Data
+                        <input type="file" accept=".json" onchange="importBackupData(event)" class="hidden">
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 2: QUESTS ==================== -->
+        <section id="tab-quests" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between gap-2">
+                <div>
+                    <h2 class="font-display" style="font-weight: 700; font-size: 1.25rem; color: #fff;">QUEST BOARD</h2>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">Selesaikan misi harian untuk menjadi lebih kuat</p>
+                </div>
+                <div class="flex items-center gap-1-5 shrink-0">
+                    <button onclick="restoreDefaultHabits()" class="font-display flex items-center gap-1" style="background: var(--bg-slate-900); color: #67e8f9; border: 1px solid rgba(6,182,212,0.4); font-weight: 700; font-size: 0.75rem; padding: 0.5rem 0.625rem; border-radius: 0.75rem;" title="Muat Ulang Paket Default Daily Habit">
+                        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                        Preset Habit
+                    </button>
+                    <button onclick="toggleQuestForm()" class="font-display shadow-neon-blue flex items-center gap-1" style="background: var(--cyan-500); color: #020617; font-weight: 700; font-size: 0.75rem; padding: 0.5rem 0.75rem; border-radius: 0.75rem;">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Quest Baru
+                    </button>
+                </div>
+            </div>
+
+            <!-- Daily Quest Progress Summary Bar -->
+            <div class="system-card" style="padding: 0.75rem; border-radius: 0.75rem;">
+                <div class="flex justify-between" style="font-size: 0.75rem; margin-bottom: 4px;">
+                    <span class="font-display" style="font-weight: 700; color: #67e8f9; text-transform: uppercase;">Daily Habit Completion</span>
+                    <span id="daily-progress-text" class="font-display" style="font-weight: 700; color: #fff;">0 / 0</span>
+                </div>
+                <div class="progress-track" style="height: 0.5rem;">
+                    <div id="daily-progress-bar" class="progress-fill" style="width: 0%; background: linear-gradient(to right, #22d3ee, #34d399);"></div>
+                </div>
+            </div>
+
+            <!-- Add Quest Form -->
+            <form id="quest-form" onsubmit="handleAddQuest(event)" class="hidden system-card space-y-3 modal-enter" style="border-color: rgba(34,211,238,0.45);">
+                <div class="flex justify-between items-center" style="border-bottom: 1px solid var(--bg-slate-800); padding-bottom: 0.5rem;">
+                    <span class="font-display" style="font-weight: 700; font-size: 0.875rem; color: var(--cyan-400); text-transform: uppercase;">Buat Misi Baru</span>
+                    <button type="button" onclick="toggleQuestForm()" style="color: var(--text-muted);">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Nama Misi / Tugas</label>
+                    <input type="text" id="q-title" required placeholder="Contoh: Push-up 30x atau Baca Buku 20 Hal" class="input-cyber">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2-5">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Kategori</label>
+                        <select id="q-category" class="input-cyber" style="font-size: 0.75rem;">
+                            <option value="Daily Quest">Daily Quest (Wajib)</option>
+                            <option value="Main Quest">Main Quest</option>
+                            <option value="Boss Fight">Boss Fight (Sulit)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Atribut Stat</label>
+                        <select id="q-stat" class="input-cyber" style="font-size: 0.75rem;">
+                            <option value="STR">STR (Fisik)</option>
+                            <option value="INT">INT (Belajar/Kerja)</option>
+                            <option value="WIS">WIS (Mindfulness)</option>
+                            <option value="CHR">CHR (Sosial)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2-5">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Hadiah XP</label>
+                        <input type="number" id="q-xp" value="30" min="5" max="500" required class="input-cyber font-display" style="color: #67e8f9; font-weight: 700;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Hadiah Gold</label>
+                        <input type="number" id="q-gold" value="25" min="5" max="1000" required class="input-cyber font-display" style="color: #fcd34d; font-weight: 700;">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full font-display shadow-neon-blue" style="background: linear-gradient(to right, #06b6d4, #9333ea); color: #fff; font-weight: 700; padding: 0.625rem; border-radius: 0.75rem;">
+                    TAMBAHKAN KE QUEST BOARD
+                </button>
+            </form>
+
+            <!-- Filter Pills -->
+            <div class="flex gap-1-5" style="overflow-x: auto; padding-bottom: 4px;">
+                <button onclick="setQuestFilter('ALL')" id="filter-ALL" class="quest-filter-btn font-display" style="padding: 6px 12px; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; background: rgba(6,182,212,0.2); color: #67e8f9; border: 1px solid rgba(6,182,212,0.4); white-space: nowrap;">Semua</button>
+                <button onclick="setQuestFilter('Daily Quest')" id="filter-Daily Quest" class="quest-filter-btn font-display" style="padding: 6px 12px; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; background: var(--bg-slate-900); color: var(--text-muted); border: 1px solid var(--bg-slate-800); white-space: nowrap;">Daily Quest</button>
+                <button onclick="setQuestFilter('Main Quest')" id="filter-Main Quest" class="quest-filter-btn font-display" style="padding: 6px 12px; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; background: var(--bg-slate-900); color: var(--text-muted); border: 1px solid var(--bg-slate-800); white-space: nowrap;">Main Quest</button>
+                <button onclick="setQuestFilter('Boss Fight')" id="filter-Boss Fight" class="quest-filter-btn font-display" style="padding: 6px 12px; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; background: var(--bg-slate-900); color: var(--text-muted); border: 1px solid var(--bg-slate-800); white-space: nowrap;">Boss Fight</button>
+            </div>
+
+            <!-- Quest List Container -->
+            <div id="quest-list" class="space-y-2-5"></div>
+        </section>
+
+        <!-- ==================== TAB 3: DUNGEON (FOCUS TIMER) ==================== -->
+        <section id="tab-dungeon" class="tab-content hidden space-y-4">
+            <div class="system-card text-center" style="padding: 1.25rem; border-color: rgba(168,85,247,0.35);">
+                <span class="font-display" style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px; background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.35); color: #d8b4fe; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-bottom: 0.75rem;">
+                    <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/></svg>
+                    Instant Dungeon Gate
+                </span>
+
+                <h2 class="font-display" style="font-weight: 700; font-size: 1.5rem; color: #fff;">DEEP FOCUS RAID</h2>
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; max-width: 20rem; margin-left: auto; margin-right: auto; line-height: 1.5;">
+                    Masuki gerbang fokus. Jangan menyerah sebelum waktu habis untuk mengklaim <span style="color: #67e8f9;">+INT</span>, <span style="color: #67e8f9;">XP</span>, dan <span style="color: #fcd34d;">Gold</span>!
+                </p>
+
+                <!-- Mode Selector -->
+                <div id="dungeon-mode-selector" class="flex justify-center gap-2" style="margin-top: 1rem;">
+                    <button onclick="selectDungeonDuration(1500, 100, 80)" id="mode-25m" class="font-display" style="padding: 6px 12px; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; background: rgba(168,85,247,0.2); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.5);">
+                        25 Menit (Rank-C)
+                    </button>
+                    <button onclick="selectDungeonDuration(10, 35, 30)" id="mode-10s" class="font-display" style="padding: 6px 12px; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; background: var(--bg-slate-900); color: var(--text-muted); border: 1px solid #334155;">
+                        10 Detik (Simulasi)
+                    </button>
+                </div>
+
+                <!-- Circular Timer Display -->
+                <div style="margin: 1.5rem auto; position: relative; width: 12rem; height: 12rem; display: flex; align-items: center; justify-content: center;">
+                    <svg style="width: 100%; height: 100%; transform: rotate(-90deg);" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="44" stroke="#1e293b" stroke-width="6" fill="transparent" />
+                        <circle id="dungeon-progress-ring" cx="50" cy="50" r="44" stroke="#9d4edd" stroke-width="6" fill="transparent"
+                            stroke-dasharray="276.46" stroke-dashoffset="0" stroke-linecap="round" style="transition: stroke-dashoffset 0.3s ease;" />
+                    </svg>
+                    <div style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                        <span id="dungeon-timer-text" class="font-display" style="font-weight: 800; font-size: 2.25rem; color: #fff;">25:00</span>
+                        <span id="dungeon-status-label" class="font-display" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--purple-400); margin-top: 4px;">GATE READY</span>
+                    </div>
+                </div>
+
+                <!-- Potential Rewards Preview -->
+                <div style="background: rgba(2,6,23,0.85); border: 1px solid var(--bg-slate-800); border-radius: 0.75rem; padding: 0.75rem; margin-bottom: 1rem;" class="flex justify-around items-center">
+                    <div class="text-center">
+                        <span style="font-size: 10px; color: var(--text-muted); display: block; text-transform: uppercase;">Reward XP</span>
+                        <span id="dungeon-reward-xp" class="font-display" style="font-weight: 700; font-size: 0.875rem; color: var(--cyan-400);">+100 XP</span>
+                    </div>
+                    <div style="height: 1.5rem; width: 1px; background: var(--bg-slate-800);"></div>
+                    <div class="text-center">
+                        <span style="font-size: 10px; color: var(--text-muted); display: block; text-transform: uppercase;">Reward Gold</span>
+                        <span id="dungeon-reward-gold" class="font-display" style="font-weight: 700; font-size: 0.875rem; color: var(--amber-400);">+80 Gold</span>
+                    </div>
+                    <div style="height: 1.5rem; width: 1px; background: var(--bg-slate-800);"></div>
+                    <div class="text-center">
+                        <span style="font-size: 10px; color: var(--text-muted); display: block; text-transform: uppercase;">Stat Bonus</span>
+                        <span class="font-display" style="font-weight: 700; font-size: 0.875rem; color: var(--purple-400);">+2 INT</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div id="dungeon-controls" class="flex gap-2">
+                    <button id="btn-start-dungeon" onclick="startDungeon()" class="w-full font-display shadow-neon-purple flex items-center justify-center gap-2" style="background: linear-gradient(to right, #9333ea, #0891b2); color: #fff; font-weight: 700; padding: 0.75rem; border-radius: 0.75rem;">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        MASUKI DUNGEON
+                    </button>
+                    <button id="btn-abort-dungeon" onclick="abortDungeon()" class="hidden w-full font-display flex items-center justify-center gap-2" style="background: rgba(136,19,55,0.75); color: #fda4af; border: 1px solid rgba(244,63,94,0.45); font-weight: 700; padding: 0.75rem; border-radius: 0.75rem;">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="12" r="1"/><circle cx="15" cy="12" r="1"/><path d="M8 20v2h8v-2"/><path d="m12.5 17-.5-1-.5 1h1z"/><path d="M16 20a2 2 0 0 0 1.56-3.25 8 8 0 1 0-11.12 0A2 2 0 0 0 8 20"/></svg>
+                        MENYERAH (-10 HP)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== TAB 4: SHOP ==================== -->
+        <section id="tab-shop" class="tab-content hidden space-y-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="font-display" style="font-weight: 700; font-size: 1.25rem; color: #fff;">SYSTEM SHOP</h2>
+                    <p style="font-size: 0.75rem; color: var(--text-muted);">Tukarkan Gold dengan Potion atau Reward Dunia Nyata</p>
+                </div>
+                <button onclick="toggleShopForm()" class="font-display shadow-neon-gold flex items-center gap-1" style="background: var(--amber-500); color: #020617; font-weight: 700; font-size: 0.875rem; padding: 0.5rem 0.875rem; border-radius: 0.75rem;">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    Item Baru
+                </button>
+            </div>
+
+            <!-- Add Custom Reward Form -->
+            <form id="shop-form" onsubmit="handleAddShopItem(event)" class="hidden system-card space-y-3 modal-enter" style="border-color: rgba(251,191,36,0.45);">
+                <div class="flex justify-between items-center" style="border-bottom: 1px solid var(--bg-slate-800); padding-bottom: 0.5rem;">
+                    <span class="font-display" style="font-weight: 700; font-size: 0.875rem; color: var(--amber-400); text-transform: uppercase;">Tambah Self-Reward</span>
+                    <button type="button" onclick="toggleShopForm()" style="color: var(--text-muted);">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                </div>
+
+                <div>
+                    <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Nama Reward Dunia Nyata</label>
+                    <input type="text" id="s-title" required placeholder="Contoh: Nonton 1 Episode Anime / Beli Boba" class="input-cyber">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2-5">
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Harga (Gold)</label>
+                        <input type="number" id="s-cost" value="150" min="10" max="10000" required class="input-cyber font-display" style="color: #fcd34d; font-weight: 700;">
+                    </div>
+                    <div>
+                        <label style="display: block; font-size: 0.75rem; color: #cbd5e1; margin-bottom: 4px;">Efek Item</label>
+                        <select id="s-type" class="input-cyber" style="font-size: 0.75rem;">
+                            <option value="reward">Real-Life Reward</option>
+                            <option value="potion">Heal +30 HP</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full font-display shadow-neon-gold" style="background: linear-gradient(to right, #f59e0b, #f97316); color: #020617; font-weight: 700; padding: 0.625rem; border-radius: 0.75rem;">
+                    SIMPAN KE SHOP
+                </button>
+            </form>
+
+            <!-- Shop Items Container -->
+            <div id="shop-list" class="space-y-2-5"></div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav>
+        <div class="nav-inner">
+            <button onclick="switchTab('status')" id="nav-status" class="nav-btn active">
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <span class="font-display" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Status</span>
+            </button>
+            <button onclick="switchTab('quests')" id="nav-quests" class="nav-btn">
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 21h12a2 2 0 0 0 2-2v-2H10v2a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v3h4"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/></svg>
+                <span class="font-display" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Quests</span>
+                <span id="nav-quest-badge" class="hidden shadow-neon-blue" style="position: absolute; top: 8px; right: 24px; width: 8px; height: 8px; border-radius: 9999px; background: var(--cyan-400);"></span>
+            </button>
+            <button onclick="switchTab('dungeon')" id="nav-dungeon" class="nav-btn">
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2c1 3 2.5 3.5 3.5 4.5A5 5 0 0 1 17 10a5 5 0 1 1-10 0c0-.3 0-.6.1-.9a2 2 0 1 0 3.3-2C8 4.5 11 2 12 2Z"/><path d="m5 22 14-4"/><path d="m5 18 14 4"/></svg>
+                <span class="font-display" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Dungeon</span>
+            </button>
+            <button onclick="switchTab('shop')" id="nav-shop" class="nav-btn">
+                <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span class="font-display" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Shop</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Level Up Celebration Modal -->
+    <div id="modal-levelup" class="hidden modal-backdrop">
+        <div class="system-card max-w-xs w-full text-center shadow-neon-blue modal-enter" style="border-color: var(--cyan-400); padding: 1.5rem;">
+            <div style="width: 4rem; height: 4rem; margin: 0 auto 0.75rem auto; border-radius: 9999px; background: rgba(6,182,212,0.2); border: 2px solid var(--cyan-400); display: flex; align-items: center; justify-content: center;" class="shadow-neon-blue">
+                <svg class="icon" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2.5"><polyline points="17 11 12 6 7 11"/><polyline points="17 18 12 13 7 18"/></svg>
+            </div>
+            <p class="font-display" style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.14em; color: var(--cyan-400); text-transform: uppercase;">SYSTEM NOTIFICATION</p>
+            <h3 class="font-display" style="font-weight: 800; font-size: 1.875rem; color: #fff; margin-top: 4px;">LEVEL UP!</h3>
+            <p style="font-size: 0.875rem; color: #cbd5e1; margin-top: 0.5rem;">
+                Selamat! Kamu telah mencapai <span id="levelup-new-lvl" style="font-weight: 700; color: var(--cyan-400);">Level 2</span>.
+            </p>
+            <div style="background: rgba(15,23,42,0.9); border: 1px solid #334155; border-radius: 0.75rem; padding: 0.75rem; margin-top: 1rem; font-size: 0.75rem; text-align: left;" class="space-y-1">
+                <p style="color: var(--emerald-400);">✓ HP dipulihkan penuh (100/100)</p>
+                <p style="color: #d8b4fe;">★ Rank: <span id="levelup-new-rank" style="font-weight: 700;">Novice</span></p>
+            </div>
+            <button onclick="closeModal('modal-levelup')" class="w-full font-display" style="margin-top: 1.25rem; background: var(--cyan-500); color: #020617; font-weight: 700; padding: 0.625rem; border-radius: 0.75rem;">
+                TERIMA KEKUATAN
+            </button>
+        </div>
+    </div>
+
+    <!-- System Alert / Simulation Report Modal -->
+    <div id="modal-system-msg" class="hidden modal-backdrop">
+        <div class="system-card max-w-xs w-full text-center modal-enter" style="border-color: #475569; padding: 1.25rem;">
+            <div style="width: 3rem; height: 3rem; margin: 0 auto 0.75rem auto; border-radius: 9999px; background: rgba(6,182,212,0.18); border: 1px solid var(--cyan-400); display: flex; align-items: center; justify-content: center;">
+                <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+            </div>
+            <h3 id="sys-msg-title" class="font-display" style="font-weight: 700; font-size: 1.25rem; color: #fff;">LAPORAN HARIAN</h3>
+            <p id="sys-msg-body" style="font-size: 0.75rem; color: #cbd5e1; margin-top: 0.5rem; line-height: 1.5;"></p>
+            <button onclick="closeModal('modal-system-msg')" class="w-full font-display" style="margin-top: 1rem; background: var(--bg-slate-800); color: #fff; font-weight: 700; padding: 0.5rem; border-radius: 0.75rem; border: 1px solid #475569;">
+                MENGERTI
+            </button>
+        </div>
+    </div>
+
+    <!-- Edit Character Name Modal -->
+    <div id="modal-edit-name" class="hidden modal-backdrop">
+        <div class="system-card max-w-xs w-full modal-enter" style="border-color: rgba(34,211,238,0.5); padding: 1.25rem;">
+            <h3 class="font-display" style="font-weight: 700; font-size: 1.125rem; color: var(--cyan-400); margin-bottom: 0.75rem;">UBAH NAMA HUNTER</h3>
+            <input type="text" id="input-player-name" maxlength="22" class="input-cyber" style="margin-bottom: 1rem;">
+            <div class="flex gap-2">
+                <button onclick="closeModal('modal-edit-name')" class="flex-1 font-display" style="background: var(--bg-slate-800); color: #cbd5e1; font-weight: 700; padding: 0.5rem; border-radius: 0.75rem; font-size: 0.875rem;">Batal</button>
+                <button onclick="savePlayerName()" class="flex-1 font-display" style="background: var(--cyan-500); color: #020617; font-weight: 700; padding: 0.5rem; border-radius: 0.75rem; font-size: 0.875rem;">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Reset Modal -->
+    <div id="modal-reset" class="hidden modal-backdrop">
+        <div class="system-card max-w-xs w-full text-center modal-enter" style="border-color: rgba(244,63,94,0.5); padding: 1.25rem;">
+            <svg class="icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="margin: 0 auto 0.5rem auto;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <h3 class="font-display" style="font-weight: 700; font-size: 1.125rem; color: #fff;">RESET DATA SISTEM?</h3>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; margin-bottom: 1rem;">Semua progres Level, Stat, Gold, dan Quest akan dikembalikan ke data awal demo.</p>
+            <div class="flex gap-2">
+                <button onclick="closeModal('modal-reset')" class="flex-1 font-display" style="background: var(--bg-slate-800); color: #cbd5e1; font-weight: 700; padding: 0.5rem; border-radius: 0.75rem; font-size: 0.875rem;">Batal</button>
+                <button onclick="confirmResetData()" class="flex-1 font-display" style="background: #e11d48; color: #fff; font-weight: 700; padding: 0.5rem; border-radius: 0.75rem; font-size: 0.875rem;">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Titles & Achievements Modal -->
+    <div id="modal-titles" class="hidden modal-backdrop">
+        <div class="system-card max-w-sm w-full modal-enter space-y-3" style="border-color: rgba(245,158,11,0.5); padding: 1.25rem;">
+            <div class="flex items-center justify-between" style="border-bottom: 1px solid var(--bg-slate-800); padding-bottom: 0.5rem;">
+                <h3 class="font-display flex items-center gap-1-5" style="font-weight: 700; font-size: 1.125rem; color: var(--amber-400);">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/></svg>
+                    GELAR & ACHIEVEMENT
+                </h3>
+                <button onclick="closeModal('modal-titles')" style="color: var(--text-muted);">
+                    <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted);">Pilih gelar aktif untuk mendapatkan bonus pasif permanen:</p>
+            <div id="titles-list" class="space-y-2" style="max-height: 16rem; overflow-y: auto; padding-right: 4px;"></div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT LOGIC (100% OFFLINE) ==================== -->
+    <script>
+        // ==========================================
+        // 1. WEB AUDIO API SYNTHESIZER (NO EXTERNAL FILES)
+        // ==========================================
+        const SoundFX = {
+            ctx: null,
+            muted: false,
+
+            init() {
+                if (!this.ctx) {
+                    const AudioContext = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioContext();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            },
+
+            playClick() {
+                if (this.muted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, now);
+                osc.frequency.exponentialRampToValueAtTime(1320, now + 0.045);
+
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.045);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            },
+
+            playQuestComplete() {
+                if (this.muted) return;
+                this.init();
+                const notes = [523.25, 659.25, 783.99, 1046.50];
+                notes.forEach((freq, idx) => {
+                    const now = this.ctx.currentTime + idx * 0.065;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now);
+
+                    gain.gain.setValueAtTime(0.12, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + 0.23);
+                });
+            },
+
+            playLevelUp() {
+                if (this.muted) return;
+                this.init();
+                const melody = [
+                    { f: 523.25, t: 0, d: 0.12 },
+                    { f: 659.25, t: 0.12, d: 0.12 },
+                    { f: 783.99, t: 0.24, d: 0.12 },
+                    { f: 1046.50, t: 0.36, d: 0.45 }
+                ];
+                melody.forEach(n => {
+                    const now = this.ctx.currentTime + n.t;
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sawtooth';
+                    osc.frequency.setValueAtTime(n.f, now);
+
+                    const filter = this.ctx.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(2400, now);
+
+                    gain.gain.setValueAtTime(0.14, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + n.d);
+
+                    osc.connect(filter);
+                    filter.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now);
+                    osc.stop(now + n.d + 0.02);
+                });
+            },
+
+            playCoin() {
+                if (this.muted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(987.77, now);
+                osc.frequency.setValueAtTime(1318.51, now + 0.07);
+
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.31);
+            },
+
+            playDamage() {
+                if (this.muted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(160, now);
+                osc.frequency.linearRampToValueAtTime(95, now + 0.28);
+
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.31);
+            }
+        };
+
+        function updateAudioIcon() {
+            const wrap = document.getElementById('icon-audio-wrap');
+            const btn = document.getElementById('btn-audio-toggle');
+            if (!wrap || !btn) return;
+            if (SoundFX.muted) {
+                btn.style.color = '#64748b';
+                wrap.innerHTML = `<svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>`;
+            } else {
+                btn.style.color = '#22d3ee';
+                wrap.innerHTML = `<svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>`;
+            }
+        }
+
+        function toggleAudio() {
+            SoundFX.muted = !SoundFX.muted;
+            updateAudioIcon();
+            if (!SoundFX.muted) SoundFX.playClick();
+            saveState();
+        }
+
+        // ==========================================
+        // 2. GAME STATE & DEFAULT DAILY HABITS
+        // ==========================================
+        const STORAGE_KEY = 'system_rpg_productivity_offline_v1';
+
+        const DEFAULT_DAILY_HABITS = [
+            {
+                id: 'dh_hydrate',
+                title: 'Minum 2 Liter Air Putih & Bangun Pagi Tepat Waktu',
+                category: 'Daily Quest',
+                stat: 'STR',
+                xp: 20,
+                gold: 15,
+                completed: false
+            },
+            {
+                id: 'dh_workout',
+                title: 'Latihan Fisik / Olahraga (Push-up, Lari, atau Stretching 20m)',
+                category: 'Daily Quest',
+                stat: 'STR',
+                xp: 40,
+                gold: 35,
+                completed: false
+            },
+            {
+                id: 'dh_deepwork',
+                title: 'Fokus Belajar / Upgrade Skill Utama Minimal 45 Menit',
+                category: 'Daily Quest',
+                stat: 'INT',
+                xp: 45,
+                gold: 40,
+                completed: false
+            },
+            {
+                id: 'dh_read',
+                title: 'Baca Buku Non-Fiksi / Artikel Edukatif Minimal 15 Halaman',
+                category: 'Daily Quest',
+                stat: 'INT',
+                xp: 25,
+                gold: 20,
+                completed: false
+            },
+            {
+                id: 'dh_mindful',
+                title: 'Ibadah Tepat Waktu, Meditasi & Evaluasi Jurnal Harian',
+                category: 'Daily Quest',
+                stat: 'WIS',
+                xp: 35,
+                gold: 30,
+                completed: false
+            },
+            {
+                id: 'dh_social',
+                title: 'Komunikasi Positif / Bantu Orang Lain / Jaga Relasi Baik',
+                category: 'Daily Quest',
+                stat: 'CHR',
+                xp: 25,
+                gold: 25,
+                completed: false
+            }
+        ];
+
+        const DEFAULT_STATE = {
+            player: {
+                name: 'Sung Jin-Woo',
+                level: 1,
+                xp: 35,
+                hp: 100,
+                maxHp: 100,
+                gold: 250,
+                streak: 2,
+                activeTitle: 't_novice',
+                dungeonClears: 1,
+                stats: {
+                    STR: 12,
+                    INT: 14,
+                    WIS: 11,
+                    CHR: 10
+                }
+            },
+            quests: [
+                ...JSON.parse(JSON.stringify(DEFAULT_DAILY_HABITS)),
+                {
+                    id: 'q_main_1',
+                    title: 'Selesaikan Modul Utama Proyek / Target Mingguan',
+                    category: 'Main Quest',
+                    stat: 'INT',
+                    xp: 90,
+                    gold: 75,
+                    completed: false
+                },
+                {
+                    id: 'q_boss_1',
+                    title: 'Presentasi Penting / Taklukkan Tantangan Terberat Minggu Ini',
+                    category: 'Boss Fight',
+                    stat: 'CHR',
+                    xp: 150,
+                    gold: 120,
+                    completed: false
+                }
+            ],
+            shop: [
+                {
+                    id: 's1',
+                    title: 'Health Potion (+30 HP)',
+                    cost: 150,
+                    type: 'potion',
+                    desc: 'Memulihkan 30 poin Vitality (HP) secara instan.'
+                },
+                {
+                    id: 's2',
+                    title: 'Kopi Favorit / Minuman Spesial',
+                    cost: 200,
+                    type: 'reward',
+                    desc: 'Reward dunia nyata untuk menyegarkan pikiran.'
+                },
+                {
+                    id: 's3',
+                    title: '1 Jam Main Game Tanpa Rasa Bersalah',
+                    cost: 300,
+                    type: 'reward',
+                    desc: 'Waktu santai bebas penalti setelah bekerja keras.'
+                }
+            ],
+            history: {
+                dailyCounts: {},
+                logs: []
+            },
+            selectedDate: null,
+            lastRealDate: null,
+            muted: false
+        };
+
+        const TITLES_CATALOG = [
+            {
+                id: 't_novice',
+                name: 'Shadow Candidate',
+                reqText: 'Gelar awal Hunter yang baru bangkit',
+                buffText: 'Status Standar (1.0x)',
+                xpBonus: 0,
+                goldBonus: 0,
+                checkUnlocked: () => true
+            },
+            {
+                id: 't_wolf',
+                name: 'Wolf Slayer',
+                reqText: 'Capai Streak Harian minimal 3 Hari',
+                buffText: '+10% Bonus Gold dari semua misi',
+                xpBonus: 0,
+                goldBonus: 0.10,
+                checkUnlocked: (state) => state.player.streak >= 3
+            },
+            {
+                id: 't_iron',
+                name: 'Iron Will',
+                reqText: 'Selesaikan minimal 3x Deep Focus Dungeon',
+                buffText: '+10% Bonus XP dari semua misi',
+                xpBonus: 0.10,
+                goldBonus: 0,
+                checkUnlocked: (state) => (state.player.dungeonClears || 0) >= 3
+            },
+            {
+                id: 't_monarch',
+                name: 'Monarch of Shadows',
+                reqText: 'Capai Level 10 atau total atribut >= 80',
+                buffText: '+15% XP & +15% Gold Permanen',
+                xpBonus: 0.15,
+                goldBonus: 0.15,
+                checkUnlocked: (state) => {
+                    const s = state.player.stats;
+                    return state.player.level >= 10 || (s.STR + s.INT + s.WIS + s.CHR) >= 80;
+                }
+            }
+        ];
+
+        function initDemoHistory(state) {
+            const today = new Date();
+            const todayKey = formatDateKey(today);
+            state.selectedDate = todayKey;
+            state.lastRealDate = todayKey;
+
+            const sampleCounts = [2, 3, 1, 4, 3, 5, 2, 4, 5, 4, 2, 6, 3, 0];
+            const sampleLogs = [];
+
+            for (let i = 13; i >= 1; i--) {
+                const d = new Date(today);
+                d.setDate(today.getDate() - i);
+                const key = formatDateKey(d);
+                const count = sampleCounts[13 - i];
+                state.history.dailyCounts[key] = count;
+
+                if (count > 0) {
+                    sampleLogs.unshift({
+                        id: 'log_demo_' + i,
+                        title: i % 2 === 0 ? 'Latihan Fisik / Olahraga (Push-up, Lari, atau Stretching 20m)' : 'Fokus Belajar / Upgrade Skill Utama Minimal 45 Menit',
+                        type: 'Daily Quest',
+                        stat: i % 2 === 0 ? 'STR' : 'INT',
+                        xp: i % 2 === 0 ? 40 : 45,
+                        gold: i % 2 === 0 ? 35 : 40,
+                        dateStr: key
+                    });
+                }
+            }
+
+            state.history.logs = sampleLogs;
+            return state;
+        }
+
+        function formatDateKey(dateObj) {
+            const y = dateObj.getFullYear();
+            const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+            const d = String(dateObj.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function parseDateKey(dateStr) {
+            const [y, m, d] = dateStr.split('-').map(Number);
+            return new Date(y, m - 1, d);
+        }
+
+        function formatReadableDate(dateStr) {
+            const d = parseDateKey(dateStr);
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+            return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+
+        function getCurrentGameDateKey() {
+            if (!gameState.selectedDate) {
+                gameState.selectedDate = formatDateKey(new Date());
+            }
+            return gameState.selectedDate;
+        }
+
+        function recordActivityHistory(title, type, stat, xp, gold) {
+            if (!gameState.history) {
+                gameState.history = { dailyCounts: {}, logs: [] };
+            }
+            const dateKey = getCurrentGameDateKey();
+            gameState.history.dailyCounts[dateKey] = (gameState.history.dailyCounts[dateKey] || 0) + 1;
+
+            gameState.history.logs.unshift({
+                id: 'log_' + Date.now(),
+                title,
+                type,
+                stat,
+                xp,
+                gold,
+                dateStr: dateKey
+            });
+
+            if (gameState.history.logs.length > 100) {
+                gameState.history.logs = gameState.history.logs.slice(0, 100);
+            }
+        }
+
+        let gameState = loadState();
+        let currentQuestFilter = 'ALL';
+        let showAllHistoryLogs = false;
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    SoundFX.muted = !!parsed.muted;
+                    if (!parsed.history) {
+                        parsed.history = { dailyCounts: {}, logs: [] };
+                        initDemoHistory(parsed);
+                    }
+                    const realToday = formatDateKey(new Date());
+                    if (!parsed.selectedDate) parsed.selectedDate = realToday;
+                    if (!parsed.lastRealDate) parsed.lastRealDate = realToday;
+                    if (!parsed.player.activeTitle) parsed.player.activeTitle = 't_novice';
+                    if (typeof parsed.player.dungeonClears !== 'number') parsed.player.dungeonClears = 0;
+                    return parsed;
+                }
+            } catch (e) {
+                console.error('Gagal memuat state:', e);
+            }
+            return initDemoHistory(JSON.parse(JSON.stringify(DEFAULT_STATE)));
+        }
+
+        function checkRealDayRollover() {
+            const realToday = formatDateKey(new Date());
+            if (gameState.lastRealDate && gameState.lastRealDate !== realToday) {
+                const dailyQuests = gameState.quests.filter(q => q.category === 'Daily Quest');
+                const unfinishedCount = dailyQuests.filter(q => !q.completed).length;
+
+                gameState.quests.forEach(q => {
+                    if (q.category === 'Daily Quest') q.completed = false;
+                });
+                gameState.selectedDate = realToday;
+                gameState.lastRealDate = realToday;
+
+                if (unfinishedCount > 0) {
+                    const dmg = unfinishedCount * 10;
+                    gameState.player.streak = 0;
+                    gameState.player.hp = Math.max(10, gameState.player.hp - dmg);
+                    setTimeout(() => {
+                        showSystemModal(
+                            'PERGANTIAN HARI OTOMATIS',
+                            `Selamat datang kembali! Kemarin ada ${unfinishedCount} Daily Habit yang terlewat (-${dmg} HP). Semua Daily Habit telah di-reset untuk hari ini!`
+                        );
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        spawnFloatingReward('🌅 Hari Baru! Semua Daily Habit Siap Dikerjakan!');
+                    }, 500);
+                }
+                saveState();
+            }
+        }
+
+        function saveState() {
+            try {
+                gameState.muted = SoundFX.muted;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+            } catch (e) {
+                console.error('Gagal menyimpan state:', e);
+            }
+        }
+
+        // ==========================================
+        // 3. CORE RPG CALCULATIONS & RANKING
+        // ==========================================
+        function getRequiredXP(level) {
+            return level * 100;
+        }
+
+        function getPlayerRank(level) {
+            if (level >= 30) return { title: 'Sovereign', style: 'color: #fcd34d; background: rgba(245,158,11,0.2); border: 1px solid rgba(245,158,11,0.5);' };
+            if (level >= 15) return { title: 'Strategist', style: 'color: #67e8f9; background: rgba(6,182,212,0.2); border: 1px solid rgba(6,182,212,0.5);' };
+            if (level >= 5) return { title: 'Awakened', style: 'color: #d8b4fe; background: rgba(168,85,247,0.2); border: 1px solid rgba(168,85,247,0.5);' };
+            return { title: 'Novice', style: 'color: #cbd5e1; background: rgba(51,65,85,0.45); border: 1px solid #475569;' };
+        }
+
+        function getStreakMultiplier() {
+            const bonus = Math.min(gameState.player.streak * 0.05, 0.5);
+            return +(1 + bonus).toFixed(2);
+        }
+
+        function getActiveTitleObj() {
+            return TITLES_CATALOG.find(t => t.id === gameState.player.activeTitle) || TITLES_CATALOG[0];
+        }
+
+        function addRewards(baseXp, baseGold, statType = null, statGain = 1) {
+            const mult = getStreakMultiplier();
+            const titleObj = getActiveTitleObj();
+            const finalXp = Math.round(baseXp * (mult + titleObj.xpBonus));
+            const finalGold = Math.round(baseGold * (1 + titleObj.goldBonus));
+
+            gameState.player.xp += finalXp;
+            gameState.player.gold += finalGold;
+
+            if (statType && gameState.player.stats[statType] !== undefined) {
+                gameState.player.stats[statType] += statGain;
+            }
+
+            spawnFloatingReward(`+${finalXp} XP  |  +${finalGold} Gold${statType ? `  |  +${statGain} ${statType}` : ''}`);
+
+            let leveledUp = false;
+            while (gameState.player.xp >= getRequiredXP(gameState.player.level)) {
+                gameState.player.xp -= getRequiredXP(gameState.player.level);
+                gameState.player.level += 1;
+                gameState.player.hp = gameState.player.maxHp;
+                leveledUp = true;
+            }
+
+            if (leveledUp) {
+                setTimeout(() => {
+                    SoundFX.playLevelUp();
+                    const rank = getPlayerRank(gameState.player.level);
+                    document.getElementById('levelup-new-lvl').textContent = `Level ${gameState.player.level}`;
+                    document.getElementById('levelup-new-rank').textContent = rank.title;
+                    openModal('modal-levelup');
+                }, 400);
+            }
+
+            saveState();
+            renderAll();
+        }
+
+        function takeDamage(amount) {
+            SoundFX.playDamage();
+            gameState.player.hp = Math.max(0, gameState.player.hp - amount);
+            spawnFloatingReward(`⚠️ -${amount} HP!`);
+
+            if (gameState.player.hp === 0) {
+                gameState.player.hp = 50;
+                gameState.player.gold = Math.max(0, gameState.player.gold - 50);
+                showSystemModal(
+                    'CRITICAL EXHAUSTION!',
+                    'Vitality (HP) kamu mencapai 0! Sistem memulihkan HP ke 50 dengan penalti -50 Gold. Istirahatlah dan selesaikan Daily Quest!'
+                );
+            }
+
+            saveState();
+            renderAll();
+        }
+
+        // ==========================================
+        // 4. UI RENDERING FUNCTIONS
+        // ==========================================
+        function renderAll() {
+            renderStatus();
+            renderHistory();
+            renderQuests();
+            renderShop();
+            updateAudioIcon();
+        }
+
+        function renderStatus() {
+            const p = gameState.player;
+            const reqXp = getRequiredXP(p.level);
+            const rank = getPlayerRank(p.level);
+            const mult = getStreakMultiplier();
+
+            document.getElementById('header-gold').textContent = p.gold;
+            document.getElementById('header-streak').textContent = p.streak;
+
+            document.getElementById('player-name-display').textContent = p.name;
+            document.getElementById('player-level').textContent = p.level;
+            
+            const rankBadge = document.getElementById('player-rank-badge');
+            rankBadge.textContent = rank.title;
+            rankBadge.style.cssText = `font-size: 10px; font-weight: 700; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; ${rank.style}`;
+
+            const multBadge = document.getElementById('xp-multiplier-badge');
+            if (mult > 1) {
+                multBadge.textContent = `${mult}x XP`;
+                multBadge.classList.remove('hidden');
+            } else {
+                multBadge.classList.add('hidden');
+            }
+
+            const hpPct = Math.min(100, Math.round((p.hp / p.maxHp) * 100));
+            document.getElementById('hp-text').textContent = `${p.hp} / ${p.maxHp}`;
+            document.getElementById('hp-bar').style.width = `${hpPct}%`;
+
+            const xpPct = Math.min(100, Math.round((p.xp / reqXp) * 100));
+            document.getElementById('xp-text').textContent = `${p.xp} / ${reqXp} XP`;
+            document.getElementById('xp-bar').style.width = `${xpPct}%`;
+
+            ['STR', 'INT', 'WIS', 'CHR'].forEach(stat => {
+                const val = p.stats[stat];
+                const barPct = Math.min(100, (val / 50) * 100);
+                document.getElementById(`stat-${stat}-val`).textContent = val;
+                document.getElementById(`stat-${stat}-bar`).style.width = `${barPct}%`;
+            });
+
+            updateRadarChart(p.stats);
+
+            const activeTitle = getActiveTitleObj();
+            const unlockedCount = TITLES_CATALOG.filter(t => t.checkUnlocked(gameState)).length;
+            const titleNameEl = document.getElementById('active-title-name');
+            const unlockedCountEl = document.getElementById('unlocked-titles-count');
+            if (titleNameEl) titleNameEl.textContent = activeTitle.name;
+            if (unlockedCountEl) unlockedCountEl.textContent = unlockedCount;
+        }
+
+        function updateRadarChart(stats) {
+            const poly = document.getElementById('radar-data-poly');
+            if (!poly) return;
+            const maxVal = 40;
+            const cx = 110, cy = 90, maxR = 65;
+
+            const norm = (v) => Math.min(1, Math.max(0.15, v / maxVal));
+            const rSTR = norm(stats.STR) * maxR;
+            const rINT = norm(stats.INT) * maxR;
+            const rWIS = norm(stats.WIS) * maxR;
+            const rCHR = norm(stats.CHR) * maxR;
+
+            const pSTR = `${cx},${(cy - rSTR).toFixed(1)}`;
+            const pINT = `${(cx + rINT).toFixed(1)},${cy}`;
+            const pWIS = `${cx},${(cy + rWIS).toFixed(1)}`;
+            const pCHR = `${(cx - rCHR).toFixed(1)},${cy}`;
+
+            poly.setAttribute('points', `${pSTR} ${pINT} ${pWIS} ${pCHR}`);
+            document.getElementById('node-STR').setAttribute('cy', (cy - rSTR).toFixed(1));
+            document.getElementById('node-INT').setAttribute('cx', (cx + rINT).toFixed(1));
+            document.getElementById('node-WIS').setAttribute('cy', (cy + rWIS).toFixed(1));
+            document.getElementById('node-CHR').setAttribute('cx', (cx - rCHR).toFixed(1));
+        }
+
+        function renderHistory() {
+            const heatmapEl = document.getElementById('habit-heatmap');
+            const logListEl = document.getElementById('history-log-list');
+            const totalBadgeEl = document.getElementById('total-completed-badge');
+            const datePickerEl = document.getElementById('custom-date-picker');
+            const dateLabelEl = document.getElementById('active-date-label');
+            const logTitleEl = document.getElementById('history-log-title');
+            const toggleAllBtn = document.getElementById('btn-toggle-all-logs');
+            if (!heatmapEl || !logListEl) return;
+
+            const activeDateStr = getCurrentGameDateKey();
+            const todayStr = formatDateKey(new Date());
+            const dailyCounts = gameState.history?.dailyCounts || {};
+            const logs = gameState.history?.logs || [];
+
+            if (datePickerEl) datePickerEl.value = activeDateStr;
+            if (dateLabelEl) {
+                dateLabelEl.textContent = activeDateStr === todayStr 
+                    ? `${formatReadableDate(activeDateStr)} (Hari Ini)` 
+                    : formatReadableDate(activeDateStr);
+            }
+
+            const totalDone = Object.values(dailyCounts).reduce((acc, val) => acc + val, 0);
+            totalBadgeEl.textContent = `${totalDone} Selesai`;
+
+            heatmapEl.innerHTML = '';
+            const baseDate = parseDateKey(activeDateStr);
+            const dayNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+
+            for (let i = 13; i >= 0; i--) {
+                const d = new Date(baseDate);
+                d.setDate(baseDate.getDate() - i);
+                const key = formatDateKey(d);
+                const count = dailyCounts[key] || 0;
+                const isSelected = key === activeDateStr;
+
+                let cellBg = 'background: rgba(15,23,42,0.9); border: 1px solid #1e293b; color: #64748b;';
+                if (count >= 4) {
+                    cellBg = 'background: rgba(16,185,129,0.25); border: 1px solid #34d399; color: #6ee7b7;';
+                } else if (count >= 2) {
+                    cellBg = 'background: rgba(6,182,212,0.25); border: 1px solid #22d3ee; color: #a5f3fc;';
+                } else if (count === 1) {
+                    cellBg = 'background: rgba(8,51,68,0.8); border: 1px solid rgba(14,116,144,0.7); color: #22d3ee;';
+                }
+
+                const ringStyle = isSelected ? 'outline: 2px solid #fbbf24; transform: scale(1.03);' : '';
+
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.onclick = () => selectHistoryDate(key);
+                cell.style.cssText = `border-radius: 0.5rem; padding: 6px 2px; display: flex; flex-direction: column; align-items: center; justify-content: center; ${cellBg} ${ringStyle}`;
+                cell.title = `${formatReadableDate(key)}: ${count} misi selesai`;
+                cell.innerHTML = `
+                    <span class="font-display" style="font-size: 9px; text-transform: uppercase; opacity: 0.85;">${dayNames[d.getDay()]}</span>
+                    <span class="font-display" style="font-size: 0.75rem; font-weight: 700; line-height: 1.2;">${d.getDate()}</span>
+                    <span style="font-size: 9px; font-weight: 700; margin-top: 2px;">${count > 0 ? count + 'x' : '-'}</span>
+                `;
+                heatmapEl.appendChild(cell);
+            }
+
+            const displayedLogs = showAllHistoryLogs 
+                ? logs 
+                : logs.filter(item => item.dateStr === activeDateStr);
+
+            if (logTitleEl) {
+                logTitleEl.textContent = showAllHistoryLogs 
+                    ? `Semua Riwayat (${logs.length})` 
+                    : `Riwayat ${activeDateStr} (${displayedLogs.length})`;
+            }
+            if (toggleAllBtn) {
+                toggleAllBtn.textContent = showAllHistoryLogs ? 'Filter Tanggal Ini' : 'Lihat Semua';
+            }
+
+            logListEl.innerHTML = '';
+            if (displayedLogs.length === 0) {
+                logListEl.innerHTML = `<p style="font-size: 0.75rem; color: #64748b; text-align: center; padding: 0.75rem 0;">Tidak ada misi selesai pada tanggal ${activeDateStr}.</p>`;
+                return;
+            }
+
+            displayedLogs.forEach(item => {
+                const row = document.createElement('div');
+                row.style.cssText = 'background: rgba(15,23,42,0.75); border: 1px solid rgba(30,41,59,0.9); border-radius: 0.75rem; padding: 0.5rem 0.75rem;';
+                row.className = 'flex items-center justify-between gap-2';
+                row.innerHTML = `
+                    <div class="min-w-0 flex-1">
+                        <p class="truncate" style="font-size: 0.75rem; font-weight: 500; color: #e2e8f0;">${escapeHtml(item.title)}</p>
+                        <div class="flex items-center gap-2" style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">
+                            <span class="font-display" style="color: var(--cyan-400); font-weight: 700;">${item.type}</span>
+                            <span>•</span>
+                            <span>${item.dateStr}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 shrink-0">
+                        <div class="text-right font-display" style="font-weight: 700; font-size: 11px;">
+                            <span style="color: var(--cyan-400); display: block;">+${item.xp} XP</span>
+                            <span style="color: var(--purple-400); font-size: 10px;">+${item.stat}</span>
+                        </div>
+                        <button onclick="deleteHistoryLog('${item.id}')" style="color: #64748b; padding: 4px;" title="Hapus Log Ini">
+                            <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                        </button>
+                    </div>
+                `;
+                logListEl.appendChild(row);
+            });
+        }
+
+        function deleteHistoryLog(logId) {
+            const idx = gameState.history.logs.findIndex(l => l.id === logId);
+            if (idx === -1) return;
+            const target = gameState.history.logs[idx];
+            SoundFX.playClick();
+
+            if (gameState.history.dailyCounts[target.dateStr]) {
+                gameState.history.dailyCounts[target.dateStr] = Math.max(0, gameState.history.dailyCounts[target.dateStr] - 1);
+            }
+            gameState.history.logs.splice(idx, 1);
+            saveState();
+            renderAll();
+            spawnFloatingReward('Riwayat aktivitas dihapus');
+        }
+
+        function handleDateChange(newDateStr) {
+            if (!newDateStr) return;
+            selectHistoryDate(newDateStr);
+        }
+
+        function selectHistoryDate(dateStr) {
+            SoundFX.playClick();
+            gameState.selectedDate = dateStr;
+            showAllHistoryLogs = false;
+            saveState();
+            renderHistory();
+            spawnFloatingReward(`📅 Tanggal Sistem: ${formatReadableDate(dateStr)}`);
+        }
+
+        function resetToTodayDate() {
+            const todayStr = formatDateKey(new Date());
+            selectHistoryDate(todayStr);
+        }
+
+        function toggleShowAllLogs() {
+            SoundFX.playClick();
+            showAllHistoryLogs = !showAllHistoryLogs;
+            renderHistory();
+        }
+
+        function renderQuests() {
+            const container = document.getElementById('quest-list');
+            container.innerHTML = '';
+
+            const dailyQuests = gameState.quests.filter(q => q.category === 'Daily Quest');
+            const doneDailyCount = dailyQuests.filter(q => q.completed).length;
+            const totalDailyCount = dailyQuests.length;
+
+            const dailyTextEl = document.getElementById('daily-progress-text');
+            const dailyBarEl = document.getElementById('daily-progress-bar');
+            if (dailyTextEl && dailyBarEl) {
+                dailyTextEl.textContent = `${doneDailyCount} / ${totalDailyCount} Selesai`;
+                const pct = totalDailyCount > 0 ? Math.round((doneDailyCount / totalDailyCount) * 100) : 0;
+                dailyBarEl.style.width = `${pct}%`;
+            }
+
+            const incompleteDaily = doneDailyCount < totalDailyCount;
+            const navBadge = document.getElementById('nav-quest-badge');
+            if (incompleteDaily) navBadge.classList.remove('hidden');
+            else navBadge.classList.add('hidden');
+
+            const filtered = gameState.quests.filter(q => currentQuestFilter === 'ALL' || q.category === currentQuestFilter);
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="system-card text-center space-y-2" style="padding: 1.5rem; color: var(--text-muted); font-size: 0.75rem;">
+                        <p>Belum ada misi di kategori ini.</p>
+                        <button onclick="restoreDefaultHabits()" style="color: var(--cyan-400); text-decoration: underline; font-weight: 700;">Muat Paket Default Daily Habit</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const statStyles = {
+                STR: 'color: #fb7185; background: rgba(244,63,94,0.15); border: 1px solid rgba(244,63,94,0.35);',
+                INT: 'color: #22d3ee; background: rgba(6,182,212,0.15); border: 1px solid rgba(6,182,212,0.35);',
+                WIS: 'color: #c084fc; background: rgba(168,85,247,0.15); border: 1px solid rgba(168,85,247,0.35);',
+                CHR: 'color: #fbbf24; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.35);'
+            };
+
+            const catStyles = {
+                'Daily Quest': 'color: #67e8f9; border: 1px solid rgba(6,182,212,0.35); background: rgba(8,51,68,0.45);',
+                'Main Quest': 'color: #d8b4fe; border: 1px solid rgba(168,85,247,0.35); background: rgba(59,7,100,0.45);',
+                'Boss Fight': 'color: #fda4af; border: 1px solid rgba(244,63,94,0.35); background: rgba(76,5,25,0.45);'
+            };
+
+            filtered.forEach(q => {
+                const isDone = q.completed;
+                const card = document.createElement('div');
+                card.className = 'system-card flex items-center justify-between gap-3';
+                card.style.cssText = `padding: 0.875rem; border-radius: 0.75rem; ${isDone ? 'opacity: 0.55; border-color: #1e293b;' : ''}`;
+
+                const checkBtnStyle = isDone 
+                    ? 'background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #34d399;' 
+                    : 'border: 1px solid rgba(34,211,238,0.65); color: transparent;';
+
+                card.innerHTML = `
+                    <div class="flex items-start gap-3 flex-1 min-w-0">
+                        <button onclick="completeQuest('${q.id}')" ${isDone ? 'disabled' : ''} 
+                            style="margin-top: 2px; width: 1.5rem; height: 1.5rem; border-radius: 0.5rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; ${checkBtnStyle}">
+                            <svg class="icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                        </button>
+                        <div class="min-w-0 flex-1">
+                            <div class="flex flex-wrap items-center gap-1-5" style="margin-bottom: 4px;">
+                                <span class="font-display" style="font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; ${catStyles[q.category] || ''}">${q.category}</span>
+                                <span class="font-display" style="font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; ${statStyles[q.stat] || ''}">+${q.stat}</span>
+                            </div>
+                            <p class="${isDone ? 'line-through' : ''}" style="font-size: 0.875rem; font-weight: 500; color: ${isDone ? '#94a3b8' : '#f1f5f9'}; line-height: 1.35;">${escapeHtml(q.title)}</p>
+                            <div class="flex items-center gap-3 font-display" style="margin-top: 6px; font-size: 11px; font-weight: 700;">
+                                <span style="color: var(--cyan-400);">+${q.xp} XP</span>
+                                <span style="color: var(--amber-400);">+${q.gold} Gold</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="deleteQuest('${q.id}')" style="color: #64748b; padding: 6px;" title="Hapus Quest">
+                        <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    </button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function restoreDefaultHabits() {
+            SoundFX.playClick();
+            let addedCount = 0;
+            DEFAULT_DAILY_HABITS.forEach(preset => {
+                const exists = gameState.quests.some(q => q.title === preset.title);
+                if (!exists) {
+                    gameState.quests.unshift({
+                        ...preset,
+                        id: 'dh_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+                        completed: false
+                    });
+                    addedCount++;
+                }
+            });
+
+            if (addedCount > 0) {
+                saveState();
+                renderAll();
+                spawnFloatingReward(`✨ ${addedCount} Default Daily Habit Ditambahkan!`);
+            } else {
+                spawnFloatingReward('✅ Semua Default Daily Habit Sudah Ada!');
+            }
+        }
+
+        function renderShop() {
+            const container = document.getElementById('shop-list');
+            container.innerHTML = '';
+
+            gameState.shop.forEach(item => {
+                const canAfford = gameState.player.gold >= item.cost;
+                const isPotion = item.type === 'potion';
+
+                const iconBoxStyle = isPotion 
+                    ? 'background: rgba(244,63,94,0.15); border: 1px solid rgba(244,63,94,0.4); color: #fb7185;'
+                    : 'background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.4); color: #fbbf24;';
+
+                const iconSvg = isPotion
+                    ? `<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"/><path d="M8.5 2h7"/><path d="M7 16h10"/></svg>`
+                    : `<svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`;
+
+                const buyBtnStyle = canAfford
+                    ? 'background: var(--amber-500); color: #020617;'
+                    : 'background: var(--bg-slate-800); color: #64748b; border: 1px solid #334155;';
+
+                const card = document.createElement('div');
+                card.className = 'system-card flex items-center justify-between gap-3';
+                card.style.cssText = 'padding: 0.875rem; border-radius: 0.75rem;';
+                card.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div style="width: 2.75rem; height: 2.75rem; border-radius: 0.75rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; ${iconBoxStyle}">
+                            ${iconSvg}
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="truncate" style="font-size: 0.875rem; font-weight: 600; color: #fff;">${escapeHtml(item.title)}</h4>
+                            <p class="truncate" style="font-size: 11px; color: var(--text-muted);">${escapeHtml(item.desc || 'Reward dunia nyata pilihanmu')}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-1-5 shrink-0">
+                        <button onclick="buyShopItem('${item.id}')" class="font-display flex items-center gap-1 ${canAfford ? 'shadow-neon-gold' : ''}" 
+                            style="padding: 0.5rem 0.75rem; border-radius: 0.75rem; font-weight: 700; font-size: 0.75rem; ${buyBtnStyle}">
+                            <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/></svg>
+                            ${item.cost}
+                        </button>
+                        ${!isPotion ? `
+                            <button onclick="deleteShopItem('${item.id}')" style="color: #64748b; padding: 6px;" title="Hapus Item">
+                                <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // ==========================================
+        // 5. QUEST & SHOP INTERACTIONS
+        // ==========================================
+        function toggleQuestForm() {
+            SoundFX.playClick();
+            document.getElementById('quest-form').classList.toggle('hidden');
+        }
+
+        function setQuestFilter(filter) {
+            SoundFX.playClick();
+            currentQuestFilter = filter;
+            document.querySelectorAll('.quest-filter-btn').forEach(btn => {
+                btn.style.cssText = 'padding: 6px 12px; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; background: var(--bg-slate-900); color: var(--text-muted); border: 1px solid var(--bg-slate-800); white-space: nowrap;';
+            });
+            const activeBtn = document.getElementById(`filter-${filter}`);
+            if (activeBtn) {
+                activeBtn.style.cssText = 'padding: 6px 12px; border-radius: 0.5rem; font-size: 0.75rem; font-weight: 700; background: rgba(6,182,212,0.2); color: #67e8f9; border: 1px solid rgba(6,182,212,0.4); white-space: nowrap;';
+            }
+            renderQuests();
+        }
+
+        function handleAddQuest(e) {
+            e.preventDefault();
+            const title = document.getElementById('q-title').value.trim();
+            const category = document.getElementById('q-category').value;
+            const stat = document.getElementById('q-stat').value;
+            const xp = parseInt(document.getElementById('q-xp').value, 10) || 25;
+            const gold = parseInt(document.getElementById('q-gold').value, 10) || 20;
+
+            if (!title) return;
+
+            gameState.quests.unshift({
+                id: 'q_' + Date.now(),
+                title,
+                category,
+                stat,
+                xp,
+                gold,
+                completed: false
+            });
+
+            SoundFX.playClick();
+            document.getElementById('quest-form').reset();
+            document.getElementById('quest-form').classList.add('hidden');
+            saveState();
+            renderAll();
+            spawnFloatingReward('Quest Baru Ditambahkan!');
+        }
+
+        function completeQuest(id) {
+            const quest = gameState.quests.find(q => q.id === id);
+            if (!quest || quest.completed) return;
+
+            quest.completed = true;
+            SoundFX.playQuestComplete();
+
+            recordActivityHistory(quest.title, quest.category, quest.stat, quest.xp, quest.gold);
+
+            if (quest.category === 'Daily Quest') {
+                const dailyQuests = gameState.quests.filter(q => q.category === 'Daily Quest');
+                const allDailyDone = dailyQuests.length > 0 && dailyQuests.every(q => q.completed);
+                if (allDailyDone) {
+                    gameState.player.streak += 1;
+                    setTimeout(() => {
+                        spawnFloatingReward(`🔥 ALL DAILY HABITS CLEAR! Streak +1 (${gameState.player.streak} Hari)`);
+                    }, 600);
+                }
+            }
+
+            const statGain = quest.category === 'Boss Fight' ? 3 : (quest.category === 'Main Quest' ? 2 : 1);
+            addRewards(quest.xp, quest.gold, quest.stat, statGain);
+        }
+
+        function deleteQuest(id) {
+            SoundFX.playClick();
+            gameState.quests = gameState.quests.filter(q => q.id !== id);
+            saveState();
+            renderAll();
+        }
+
+        function toggleShopForm() {
+            SoundFX.playClick();
+            document.getElementById('shop-form').classList.toggle('hidden');
+        }
+
+        function handleAddShopItem(e) {
+            e.preventDefault();
+            const title = document.getElementById('s-title').value.trim();
+            const cost = parseInt(document.getElementById('s-cost').value, 10) || 100;
+            const type = document.getElementById('s-type').value;
+
+            if (!title) return;
+
+            gameState.shop.push({
+                id: 's_' + Date.now(),
+                title,
+                cost,
+                type,
+                desc: type === 'potion' ? 'Memulihkan +30 HP secara instan.' : 'Reward kustom dunia nyata.'
+            });
+
+            SoundFX.playClick();
+            document.getElementById('shop-form').reset();
+            document.getElementById('shop-form').classList.add('hidden');
+            saveState();
+            renderAll();
+            spawnFloatingReward('Item Ditambahkan ke Shop!');
+        }
+
+        function buyShopItem(id) {
+            const item = gameState.shop.find(s => s.id === id);
+            if (!item) return;
+
+            if (gameState.player.gold < item.cost) {
+                SoundFX.playDamage();
+                spawnFloatingReward('❌ Gold Tidak Cukup!');
+                return;
+            }
+
+            if (item.type === 'potion') {
+                if (gameState.player.hp >= gameState.player.maxHp) {
+                    SoundFX.playClick();
+                    spawnFloatingReward('HP Sudah Penuh (100/100)!');
+                    return;
+                }
+                gameState.player.gold -= item.cost;
+                gameState.player.hp = Math.min(gameState.player.maxHp, gameState.player.hp + 30);
+                SoundFX.playCoin();
+                spawnFloatingReward('🧪 +30 HP Dipulihkan!');
+            } else {
+                gameState.player.gold -= item.cost;
+                SoundFX.playCoin();
+                spawnFloatingReward(`🎁 Klaim Reward: ${item.title}!`);
+            }
+
+            saveState();
+            renderAll();
+        }
+
+        function deleteShopItem(id) {
+            SoundFX.playClick();
+            gameState.shop = gameState.shop.filter(s => s.id !== id);
+            saveState();
+            renderAll();
+        }
+
+        // ==========================================
+        // 6. DUNGEON MODE (FOCUS TIMER)
+        // ==========================================
+        let dungeonConfig = { duration: 1500, xp: 100, gold: 80 };
+        let dungeonRemaining = 1500;
+        let dungeonInterval = null;
+        let isDungeonRunning = false;
+
+        function selectDungeonDuration(seconds, xp, gold) {
+            if (isDungeonRunning) return;
+            SoundFX.playClick();
+            dungeonConfig = { duration: seconds, xp, gold };
+            dungeonRemaining = seconds;
+
+            const activeModeStyle = 'padding: 6px 12px; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; background: rgba(168,85,247,0.2); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.5);';
+            const inactiveModeStyle = 'padding: 6px 12px; border-radius: 0.75rem; font-size: 0.75rem; font-weight: 700; background: var(--bg-slate-900); color: var(--text-muted); border: 1px solid #334155;';
+
+            document.getElementById('mode-25m').style.cssText = seconds === 1500 ? activeModeStyle : inactiveModeStyle;
+            document.getElementById('mode-10s').style.cssText = seconds === 10 ? activeModeStyle : inactiveModeStyle;
+
+            document.getElementById('dungeon-reward-xp').textContent = `+${xp} XP`;
+            document.getElementById('dungeon-reward-gold').textContent = `+${gold} Gold`;
+            updateDungeonTimerUI();
+        }
+
+        function updateDungeonTimerUI() {
+            const mins = Math.floor(dungeonRemaining / 60).toString().padStart(2, '0');
+            const secs = (dungeonRemaining % 60).toString().padStart(2, '0');
+            document.getElementById('dungeon-timer-text').textContent = `${mins}:${secs}`;
+
+            const circumference = 276.46;
+            const progress = dungeonRemaining / dungeonConfig.duration;
+            const offset = circumference * (1 - progress);
+            document.getElementById('dungeon-progress-ring').style.strokeDashoffset = offset;
+        }
+
+        function startDungeon() {
+            if (isDungeonRunning) return;
+            SoundFX.playClick();
+            isDungeonRunning = true;
+            dungeonRemaining = dungeonConfig.duration;
+
+            document.getElementById('btn-start-dungeon').classList.add('hidden');
+            document.getElementById('btn-abort-dungeon').classList.remove('hidden');
+            const selector = document.getElementById('dungeon-mode-selector');
+            selector.style.opacity = '0.4';
+            selector.style.pointerEvents = 'none';
+
+            const statusLbl = document.getElementById('dungeon-status-label');
+            statusLbl.textContent = 'IN COMBAT // FOCUSING';
+            statusLbl.style.color = '#22d3ee';
+
+            updateDungeonTimerUI();
+
+            dungeonInterval = setInterval(() => {
+                dungeonRemaining -= 1;
+                updateDungeonTimerUI();
+
+                if (dungeonRemaining <= 0) {
+                    completeDungeon();
+                }
+            }, 1000);
+        }
+
+        function completeDungeon() {
+            clearInterval(dungeonInterval);
+            isDungeonRunning = false;
+            resetDungeonUI();
+
+            gameState.player.dungeonClears = (gameState.player.dungeonClears || 0) + 1;
+
+            const label = dungeonConfig.duration === 1500 ? 'Deep Focus Raid (25m)' : 'Deep Focus Raid (Simulasi)';
+            recordActivityHistory(label, 'Dungeon Clear', 'INT', dungeonConfig.xp, dungeonConfig.gold);
+
+            SoundFX.playQuestComplete();
+            addRewards(dungeonConfig.xp, dungeonConfig.gold, 'INT', 2);
+            showSystemModal(
+                'DUNGEON CLEARED!',
+                `Kamu berhasil menaklukkan gerbang fokus! Hadiah +${dungeonConfig.xp} XP, +${dungeonConfig.gold} Gold, dan +2 INT telah ditambahkan.`
+            );
+        }
+
+        function abortDungeon() {
+            if (!isDungeonRunning) return;
+            clearInterval(dungeonInterval);
+            isDungeonRunning = false;
+            resetDungeonUI();
+            takeDamage(10);
+        }
+
+        function resetDungeonUI() {
+            dungeonRemaining = dungeonConfig.duration;
+            updateDungeonTimerUI();
+            document.getElementById('btn-start-dungeon').classList.remove('hidden');
+            document.getElementById('btn-abort-dungeon').classList.add('hidden');
+            const selector = document.getElementById('dungeon-mode-selector');
+            selector.style.opacity = '1';
+            selector.style.pointerEvents = 'auto';
+
+            const statusLbl = document.getElementById('dungeon-status-label');
+            statusLbl.textContent = 'GATE READY';
+            statusLbl.style.color = '#c084fc';
+        }
+
+        // ==========================================
+        // 7. NEXT DAY EVALUATION & PENALTY SYSTEM
+        // ==========================================
+        function simulateNextDay() {
+            const currentDateKey = getCurrentGameDateKey();
+            const dailyQuests = gameState.quests.filter(q => q.category === 'Daily Quest');
+            const unfinishedDaily = dailyQuests.filter(q => !q.completed);
+
+            const nextDateObj = parseDateKey(currentDateKey);
+            nextDateObj.setDate(nextDateObj.getDate() + 1);
+            const nextDateKey = formatDateKey(nextDateObj);
+            gameState.selectedDate = nextDateKey;
+
+            gameState.quests.forEach(q => {
+                if (q.category === 'Daily Quest') {
+                    q.completed = false;
+                }
+            });
+
+            if (unfinishedDaily.length > 0) {
+                const penaltyHp = Math.min(60, unfinishedDaily.length * 10);
+                gameState.player.streak = 0;
+                takeDamage(penaltyHp);
+                showSystemModal(
+                    `EVALUASI ${currentDateKey} -> ${nextDateKey}`,
+                    `Ada ${unfinishedDaily.length} Daily Habit belum selesai! Kamu terkena penalti -${penaltyHp} HP dan Streak di-reset ke 0. Semua Daily Habit kini telah di-reset untuk hari baru.`
+                );
+            } else {
+                SoundFX.playQuestComplete();
+                saveState();
+                renderAll();
+                showSystemModal(
+                    `HARI BARU: ${nextDateKey}`,
+                    `Luar biasa! Semua Daily Habit pada ${currentDateKey} selesai tanpa penalti. Streak kamu terjaga di ${gameState.player.streak} hari!`
+                );
+            }
+        }
+
+        // ==========================================
+        // 8. NAVIGATION, MODALS & UTILITIES
+        // ==========================================
+        function switchTab(tabName) {
+            SoundFX.playClick();
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+        }
+
+        function spawnFloatingReward(text) {
+            const container = document.getElementById('floating-container');
+            const badge = document.createElement('div');
+            badge.className = 'animate-float-reward font-display shadow-neon-blue text-center';
+            badge.style.cssText = 'background: rgba(15,23,42,0.96); border: 1px solid rgba(34,211,238,0.65); color: #67e8f9; font-weight: 700; font-size: 0.75rem; padding: 0.5rem 1rem; border-radius: 9999px;';
+            badge.textContent = text;
+            container.appendChild(badge);
+
+            setTimeout(() => {
+                badge.remove();
+            }, 1850);
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            SoundFX.playClick();
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function showSystemModal(title, body) {
+            document.getElementById('sys-msg-title').textContent = title;
+            document.getElementById('sys-msg-body').textContent = body;
+            openModal('modal-system-msg');
+        }
+
+        function openEditNameModal() {
+            SoundFX.playClick();
+            document.getElementById('input-player-name').value = gameState.player.name;
+            openModal('modal-edit-name');
+        }
+
+        function savePlayerName() {
+            const newName = document.getElementById('input-player-name').value.trim();
+            if (newName) {
+                gameState.player.name = newName;
+                saveState();
+                renderStatus();
+            }
+            closeModal('modal-edit-name');
+        }
+
+        function openResetModal() {
+            SoundFX.playClick();
+            openModal('modal-reset');
+        }
+
+        function confirmResetData() {
+            localStorage.removeItem(STORAGE_KEY);
+            gameState = initDemoHistory(JSON.parse(JSON.stringify(DEFAULT_STATE)));
+            saveState();
+            closeModal('modal-reset');
+            renderAll();
+            spawnFloatingReward('Sistem Direset ke Data Awal');
+        }
+
+        function openTitlesModal() {
+            SoundFX.playClick();
+            const listEl = document.getElementById('titles-list');
+            listEl.innerHTML = '';
+
+            TITLES_CATALOG.forEach(t => {
+                const unlocked = t.checkUnlocked(gameState);
+                const isEquipped = gameState.player.activeTitle === t.id;
+
+                const cardStyle = isEquipped 
+                    ? 'background: rgba(245,158,11,0.15); border: 1px solid #fbbf24;' 
+                    : (unlocked ? 'background: rgba(15,23,42,0.9); border: 1px solid #334155;' : 'background: rgba(2,6,23,0.6); border: 1px solid #1e293b; opacity: 0.6;');
+
+                const btnStyle = isEquipped 
+                    ? 'background: #fbbf24; color: #020617;' 
+                    : (unlocked ? 'background: var(--bg-slate-800); color: #fcd34d; border: 1px solid rgba(245,158,11,0.45);' : 'background: var(--bg-slate-900); color: #475569;');
+
+                const card = document.createElement('div');
+                card.style.cssText = `padding: 0.75rem; border-radius: 0.75rem; ${cardStyle}`;
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <div class="flex items-center gap-1-5">
+                                <span class="font-display" style="font-weight: 700; font-size: 0.875rem; color: ${unlocked ? '#fcd34d' : '#94a3b8'};">${t.name}</span>
+                                ${!unlocked ? '🔒' : ''}
+                            </div>
+                            <p style="font-size: 11px; color: var(--cyan-400); font-weight: 500; margin-top: 2px;">${t.buffText}</p>
+                            <p style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Syarat: ${t.reqText}</p>
+                        </div>
+                        <button onclick="equipTitle('${t.id}')" ${!unlocked || isEquipped ? 'disabled' : ''} class="font-display shrink-0" 
+                            style="padding: 6px 10px; border-radius: 0.5rem; font-weight: 700; font-size: 0.75rem; ${btnStyle}">
+                            ${isEquipped ? 'Dipakai' : (unlocked ? 'Pakai' : 'Terkunci')}
+                        </button>
+                    </div>
+                `;
+                listEl.appendChild(card);
+            });
+
+            openModal('modal-titles');
+        }
+
+        function equipTitle(titleId) {
+            const target = TITLES_CATALOG.find(t => t.id === titleId);
+            if (!target || !target.checkUnlocked(gameState)) return;
+            SoundFX.playQuestComplete();
+            gameState.player.activeTitle = titleId;
+            saveState();
+            renderStatus();
+            openTitlesModal();
+            spawnFloatingReward(`👑 Gelar Aktif: ${target.name}`);
+        }
+
+        function exportBackupData() {
+            SoundFX.playClick();
+            const dataStr = JSON.stringify(gameState, null, 2);
+            if (window.AndroidBridge && typeof window.AndroidBridge.saveBackup === 'function') {
+                const encoded = btoa(unescape(encodeURIComponent(dataStr)));
+                window.AndroidBridge.saveBackup(encoded, `system-rpg-backup-${formatDateKey(new Date())}.json`);
+                spawnFloatingReward('💾 Siapkan lokasi penyimpanan backup...');
+                return;
+            }
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `system-rpg-backup-${formatDateKey(new Date())}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            spawnFloatingReward('💾 File Backup Berhasil Diunduh!');
+        }
+
+        function importBackupData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (!imported.player || !imported.quests) {
+                        throw new Error('Format file tidak valid');
+                    }
+                    gameState = imported;
+                    saveState();
+                    renderAll();
+                    SoundFX.playLevelUp();
+                    spawnFloatingReward('✅ Data Berhasil Dipulihkan!');
+                } catch (err) {
+                    SoundFX.playDamage();
+                    spawnFloatingReward('❌ File Backup Tidak Valid!');
+                }
+                event.target.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // Native Android bridge: restore a JSON backup selected with the system file picker.
+        window.importBackupFromAndroid = function(base64) {
+            try {
+                const binary = atob(base64);
+                const bytes = Uint8Array.from(binary, c => c.charCodeAt(0));
+                const json = new TextDecoder('utf-8').decode(bytes);
+                const imported = JSON.parse(json);
+                if (!imported.player || !imported.quests) throw new Error('Format file tidak valid');
+                gameState = imported;
+                saveState();
+                renderAll();
+                SoundFX.playLevelUp();
+                spawnFloatingReward('\u2705 Data Berhasil Dipulihkan!');
+            } catch (err) {
+                SoundFX.playDamage();
+                spawnFloatingReward('\u274c File Backup Tidak Valid!');
+            }
+        };
+
+        // ==========================================
+        // 9. INITIALIZE APP ON LOAD
+        // ==========================================
+        window.addEventListener('DOMContentLoaded', () => {
+            checkRealDayRollover();
+            renderAll();
+            updateDungeonTimerUI();
+        });
+    </script>
+</body>
+</html>
